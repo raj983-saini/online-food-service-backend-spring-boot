@@ -27,7 +27,7 @@ public class Order {
     @ManyToOne
     private Restaurant restaurant;
 //
-    @ManyToMany
+    @ManyToMany( cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     private List<OrderItem> items = new ArrayList<>();
 
 

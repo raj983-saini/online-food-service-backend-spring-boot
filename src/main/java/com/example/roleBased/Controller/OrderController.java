@@ -45,7 +45,7 @@ public class OrderController {
         return  new ResponseEntity<>(order , HttpStatus.OK);
     }
         @GetMapping("/restaurant/{id}/{orderstatus}")
-    public ResponseEntity<?> ipdateOrderstatus(
+    public ResponseEntity<?> updateOrderstatus(
             @PathVariable Long id,
             @PathVariable String orderstatus,
                                           @RequestHeader("Authorization") String jwt) throws Exception {

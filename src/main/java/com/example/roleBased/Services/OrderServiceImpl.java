@@ -5,95 +5,110 @@ import com.example.roleBased.Entity.*;
 import com.example.roleBased.Repository.AdressRepository;
 import com.example.roleBased.Repository.OrderRepository;
 import com.example.roleBased.Repository.UserRepository;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
-public class OrderServiceImpl  implements  OrderService{
+public class OrderServiceImpl implements OrderService {
+
     @Autowired
-    AdressRepository adressRepository;
+    private AdressRepository adressRepository;
     @Autowired
-    OrderRepository orderRepository;
+    private OrderRepository orderRepository;
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    RestaurantService restaurantService;
+    private RestaurantService restaurantService;
     @Autowired
-    CartService cartService;
+    private CartService cartService;
+
     @Override
     public Order addOrder(Orderdto1 dto, User user) throws Exception {
-        Adressing shipadress = dto.getAdressing();
-        Adressing saveadress = adressRepository.save(shipadress);
+        Adressing shipAddress = dto.getAdressing();
+        Adressing savedAddress = adressRepository.save(shipAddress);
 
-        if (!user.getAdress().contains(saveadress)){
-            user.getAdress().add(saveadress);
+        if (!user.getAdress().contains(savedAddress)) {
+            user.getAdress().add(savedAddress);
             userRepository.save(user);
         }
-        Restaurant restaurant =   restaurantService.findResturantById(dto.getRestaurantId());
-        Order order = new Order( );
+
+        Restaurant restaurant = restaurantService.findResturantById(dto.getRestaurantId());
+
+        Order order = new Order();
         order.setCustomer(user);
         order.setRestaurant(restaurant);
-        order.setDeliveryAdress(saveadress);
+        order.setDeliveryAdress(savedAddress);
         order.setCreateorderDate(new Date());
         order.setOrderStatus("Pending");
 
         Cart cart = cartService.findCartByUser(user.getId());
 
-        Order saveorder =orderRepository.save(order);
-        restaurant.getOrders().add(saveorder);
-        return order;
+        List<OrderItem> orderItems = cart.getItems().stream()
+                .map(cartItem -> {
+                    OrderItem orderItem = new OrderItem();
+                    orderItem.setOrder(order);  // Associate with the order
+                    orderItem.setFood(cartItem.getFood());
+                    orderItem.setQuantity(cartItem.getQuantit());
+                    orderItem.setTotalPrice(cartItem.getTotalPrize());
+                    return orderItem;
+                })
+                .collect(Collectors.toList());
 
+        order.setItems(orderItems);
 
+        return orderRepository.save(order);  // This saves the order and all items due to CascadeType.ALL
     }
 
+
     @Override
-    public Order updateOrderStatus(Long orderId, String orderstaus) throws Exception {
+    @Transactional
+    public Order updateOrderStatus(Long orderId, String orderStatus) {
         Order order = findOrderById(orderId);
-        if (orderstaus.equals("OUT_FOR_DELIVERY")
-                ||orderstaus.equals("DELIVERED")
-                ||orderstaus.equals("COMPLETE")
-                ||orderstaus.equals("PENDING")){
-            order.setOrderStatus(orderstaus);
-            return  orderRepository.save(order);
+
+        if (List.of("OUT_FOR_DELIVERY", "DELIVERED", "COMPLETE", "PENDING").contains(orderStatus)) {
+            order.setOrderStatus(orderStatus);
+            return orderRepository.save(order);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order status: " + orderStatus);
         }
-       throw new Exception("please enter valid status");
     }
 
     @Override
     public void canelOrder(Long oderId) throws Exception {
-Order order = findOrderById(oderId);
-orderRepository.delete(order);
+        Order order = findOrderById(oderId);
+        orderRepository.delete(order);
     }
 
     @Override
-    public List<Order> getUserOrder(Long userId) throws Exception {
+    @Transactional
+    public List<Order> getUserOrder(Long userId) {
         return orderRepository.findByCustomerId(userId);
     }
 
     @Override
-    public List<Order> getRestaurantOrder(Long restaurantId ,String orderStatus) throws Exception {
+    @Transactional
+    public List<Order> getRestaurantOrder(Long restaurantId, String orderStatus) {
         List<Order> orders = orderRepository.findByRestaurantId(restaurantId);
-        if (orderStatus != null){
-            orders = orders.stream().filter(order ->
-                    order.getOrderStatus().equals(orderStatus)).collect(Collectors.toList());
+        if (orderStatus != null) {
+            orders = orders.stream()
+                    .filter(order -> order.getOrderStatus().equals(orderStatus))
+                    .collect(Collectors.toList());
         }
         return orders;
     }
 
     @Override
-    public Order findOrderById(Long Id) throws Exception {
-
-        Optional <Order> optionalOrder = orderRepository.findById(Id);
-        if (optionalOrder.isEmpty()){
-            throw new Exception("Order not found");
-        }
-
-        return optionalOrder.get();
+    @Transactional
+    public Order findOrderById(Long id) {
+        return orderRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found with ID: " + id));
     }
 }

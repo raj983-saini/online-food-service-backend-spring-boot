@@ -8,12 +8,11 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "menu_items")
+@Table(name = "order_items")
 public class OrderItem {
 
     @Id
@@ -23,12 +22,18 @@ public class OrderItem {
     @ManyToOne
     private Food food;
 
-    private  int quantity;
-
+    private int quantity;
     private String description;
-
     private long totalPrice;
-    private List<String > ingredient = new ArrayList<>();
+
+    @ElementCollection ( fetch = FetchType.EAGER)
+    @CollectionTable(name = "order_item_ingredients", joinColumns = @JoinColumn(name = "order_item_id"))
+    @Column(name = "ingredient")
+    private List<String> ingredient = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;  // Add reference to Order
 
 
 }

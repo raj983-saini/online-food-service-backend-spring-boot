@@ -26,3 +26,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
     }
 }
+ class InvalidOrderStatusException extends RuntimeException {
+    public InvalidOrderStatusException(String message) {
+        super(message);
+    }
+}
+ class OrderNotFoundException extends RuntimeException {
+    public OrderNotFoundException(String message) {
+        super(message);
+    }
+}
