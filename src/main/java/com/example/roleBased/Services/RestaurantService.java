@@ -116,6 +116,7 @@ public class RestaurantService {
             Hibernate.initialize(restaurant.getImage());
             Hibernate.initialize(restaurant.getFoods());
             Hibernate.initialize(restaurant.getOrders());
+            Hibernate.initialize(restaurant.getIngredients());
             Hibernate.initialize(restaurant.getAdressing());
         });
 
@@ -180,7 +181,7 @@ public class RestaurantService {
         return  dto;
     }
     @Transactional
-    public  Restaurant updateResturantStatus(Long id){
+    public  Restaurant updateResturantStatus(Long id,User user){
         Restaurant restaurant = resturantRepository.findResturantById(id);
         Hibernate.initialize(restaurant.getImage());
         Hibernate.initialize(restaurant.getFoods());

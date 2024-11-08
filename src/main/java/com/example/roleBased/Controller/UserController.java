@@ -37,18 +37,9 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-//        Registerdto registerdto = new Registerdto();
-//        registerdto.setEmail(user.getEmail());
-//        registerdto.setFullname(user.getFullname());
-//        registerdto.setRole(user.getRole());
-        // Return user details
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/health-check")
-    public String healthCheck() {
-        return "Ok";
-    }
 
 
 

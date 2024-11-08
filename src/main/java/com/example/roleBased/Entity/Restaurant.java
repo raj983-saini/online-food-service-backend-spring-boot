@@ -55,6 +55,9 @@ public class Restaurant {
 
 private LocalDateTime registerdate;
 
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true , fetch = FetchType.EAGER)
+    private List<Ingerident> ingredients;  // Assuming "Ingredient" is related to "ingerident"
+
 private boolean open;
 
 @OneToMany( mappedBy = "restaurant" , cascade = CascadeType.ALL,fetch = FetchType.EAGER )

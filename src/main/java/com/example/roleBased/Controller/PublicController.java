@@ -32,7 +32,8 @@ public class PublicController {
     @Autowired
     private JwtService jwtUtil;
 
-    @GetMapping("/health-check")
+
+    @GetMapping("/health-check")    // FOR  text Api
     public String healthCheck() {
         return "Ok";
     }
