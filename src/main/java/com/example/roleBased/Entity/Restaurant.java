@@ -32,7 +32,7 @@ public class Restaurant {
     private String description;
 
     private String profilePicture;
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private Adressing adressing;
 
     @Embedded

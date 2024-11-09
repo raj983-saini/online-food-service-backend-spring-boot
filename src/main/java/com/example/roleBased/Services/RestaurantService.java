@@ -69,13 +69,6 @@ public class RestaurantService {
             if (detailDto.getImage() != null) {
                 restaurant.setImage(detailDto.getImage());
             }
-
-            // Initialize the images to avoid lazy loading issue
-            Hibernate.initialize(restaurant.getImage());
-            Hibernate.initialize(restaurant.getFoods());
-            Hibernate.initialize(restaurant.getOrders());
-            Hibernate.initialize(restaurant.getAdressing());
-
             return resturantRepository.save(restaurant);
         } else {
             throw new EntityNotFoundException("Restaurant not found with id: " + restaurantId);
@@ -85,6 +78,7 @@ public class RestaurantService {
     @Transactional
     public void deleteResturant(Long resturantId ){
         Restaurant restaurant = resturantRepository.findResturantById(resturantId);
+
         resturantRepository.delete(restaurant);
     }
     @Transactional
@@ -93,10 +87,6 @@ public class RestaurantService {
 
         // Initialize lazy-loaded fields
         restaurants.forEach(restaurant -> {
-            Hibernate.initialize(restaurant.getImage());
-            Hibernate.initialize(restaurant.getFoods());
-            Hibernate.initialize(restaurant.getOrders());
-            Hibernate.initialize(restaurant.getAdressing());
         });
         return  restaurants;
     }
@@ -113,11 +103,6 @@ public class RestaurantService {
 
         // Initialize lazy-loaded fields if they will be accessed
         restaurants.forEach(restaurant -> {
-            Hibernate.initialize(restaurant.getImage());
-            Hibernate.initialize(restaurant.getFoods());
-            Hibernate.initialize(restaurant.getOrders());
-            Hibernate.initialize(restaurant.getIngredients());
-            Hibernate.initialize(restaurant.getAdressing());
         });
 
         return restaurants;
@@ -125,12 +110,8 @@ public class RestaurantService {
 
     @Transactional
     public Restaurant findResturantById(Long id) throws Exception{
-        Restaurant restaurant = resturantRepository.findResturantById(id);
         Optional <Restaurant> opt = resturantRepository.findById(id);
-        Hibernate.initialize(restaurant.getImage());
-        Hibernate.initialize(restaurant.getFoods());
-        Hibernate.initialize(restaurant.getOrders());
-        Hibernate.initialize(restaurant.getAdressing());
+
 
         if (!opt.isPresent()){
             throw  new Exception("Resturant not found");
@@ -141,10 +122,6 @@ public class RestaurantService {
     @Transactional
     public  Restaurant getResturantByUserId(Long userId) throws Exception {
         Restaurant restaurant = resturantRepository.findByOwnerId(userId);
-        Hibernate.initialize(restaurant.getImage());
-        Hibernate.initialize(restaurant.getFoods());
-        Hibernate.initialize(restaurant.getOrders());
-        Hibernate.initialize(restaurant.getAdressing());
         if (restaurant == null){
             throw  new Exception("Resturant not found");
         }
@@ -159,10 +136,6 @@ public class RestaurantService {
         dto.setDescription(restaurant.getDescription());
         dto.setPitcher(restaurant.getImage());
         dto.setTittle(restaurant.getName());
-        Hibernate.initialize(restaurant.getImage());
-        Hibernate.initialize(restaurant.getFoods());
-        Hibernate.initialize(restaurant.getOrders());
-        Hibernate.initialize(restaurant.getAdressing());
         boolean faourate = false;
         List<RestaurantDto> favurate = user.getFavurate();
         for (RestaurantDto fav : favurate){
@@ -183,11 +156,6 @@ public class RestaurantService {
     @Transactional
     public  Restaurant updateResturantStatus(Long id,User user){
         Restaurant restaurant = resturantRepository.findResturantById(id);
-        Hibernate.initialize(restaurant.getImage());
-        Hibernate.initialize(restaurant.getFoods());
-        Hibernate.initialize(restaurant.getOrders());
-        Hibernate.initialize(restaurant.getAdressing());
-        restaurant.setOpen(!restaurant.isOpen());
         return  resturantRepository.save(restaurant);
     }
 
