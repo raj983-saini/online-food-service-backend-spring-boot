@@ -50,7 +50,6 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private  List <RestaurantDto> favurate = new ArrayList<>();
-    private  boolean status;
     @Override
     public  String getUsername(){
         return  email;
