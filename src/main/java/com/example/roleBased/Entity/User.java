@@ -38,6 +38,7 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
+    private String status;
     @OneToMany(cascade = CascadeType.ALL , mappedBy = "customer" ,fetch = FetchType.EAGER)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Order> orders = new ArrayList<>();
@@ -79,4 +80,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

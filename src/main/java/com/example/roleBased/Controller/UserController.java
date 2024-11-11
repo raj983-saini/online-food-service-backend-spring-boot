@@ -20,7 +20,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @GetMapping("/profile")
     public ResponseEntity<?> getUserDetails(@RequestHeader("Authorization") String authHeader) {
         // Check if the Authorization header contains the Bearer token
@@ -37,7 +37,7 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok().build();
     }
 
 
