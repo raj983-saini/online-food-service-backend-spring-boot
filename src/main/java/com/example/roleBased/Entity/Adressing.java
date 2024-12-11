@@ -14,6 +14,7 @@ public class Adressing {
     private  Long id;
     private  String StreetAdress;
     private  String City;
+    private  String Country;
     private  String Pincode;
 
 

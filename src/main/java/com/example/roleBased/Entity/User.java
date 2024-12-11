@@ -45,11 +45,10 @@ public class User implements UserDetails {
 
 
     @OneToMany(cascade = CascadeType.ALL , orphanRemoval = true ,fetch = FetchType.EAGER)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Adressing> adress = new ArrayList<>();
     //
-    @ElementCollection(fetch = FetchType.EAGER)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+       @ElementCollection(fetch = FetchType.EAGER)
     private  List <RestaurantDto> favurate = new ArrayList<>();
     @Override
     public  String getUsername(){

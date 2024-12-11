@@ -128,7 +128,6 @@ public class FoodServiceImpl implements Foodservice {
     public Food updateFoodAvalibityStatus(Long foodId) throws Exception {
 
         Food food = findByFoodID(foodId);
-        Hibernate.initialize(food.getImage());
         food.setAvailable(!food.isAvailable());
         return foodRepository.save(food);
     }

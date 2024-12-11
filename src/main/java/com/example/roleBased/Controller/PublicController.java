@@ -72,7 +72,7 @@ public class PublicController {
             response.put("Jwt", jwt);  // Add the JWT token to the response
             response.put("email", userDetails.getUsername());  // Add user email to the response
             response.put("fullName", ((User) userDetails).getFullname()); // Assuming fullName is available
-
+            response.put("Role", String.valueOf(((User) userDetails).getRole()));
             // Return the response with the JWT and user details
             return new ResponseEntity<>(response, HttpStatus.OK);
 

@@ -67,7 +67,7 @@ public class IngerdientController {
         List<IngerdientCatagaries> ingerident = ingerdientService.findIngerdientCatagariesByRestaurantId(id);
         return  new ResponseEntity<>(ingerident , HttpStatus.OK);
     }
-    @GetMapping("/{id}")
+    @PutMapping("/{id}/update")
     public ResponseEntity<?> getIngerdient(@PathVariable Long id,
                                                    @RequestHeader("Authorization") String jwt
     ) throws Exception {

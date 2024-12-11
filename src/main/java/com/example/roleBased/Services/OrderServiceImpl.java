@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -61,10 +60,15 @@ public class OrderServiceImpl implements OrderService {
                     return orderItem;
                 })
                 .collect(Collectors.toList());
+Long total = cartService.calculateCartTotal(cart);
 
         order.setItems(orderItems);
+       order.setTatalprize(total);
+       Order saveorder = orderRepository.save(order);
+       restaurant.getOrders().add(saveorder);
 
-        return orderRepository.save(order);  // This saves the order and all items due to CascadeType.ALL
+
+        return order;  // This saves the order and all items due to CascadeType.ALL
     }
 
 

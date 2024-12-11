@@ -39,6 +39,7 @@ public class RestaurantFoodController {
     public String hello(){
     return  "okk";
 }
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PostMapping("/food-createfood")
     @PreAuthorize("hasRole('RESTAURANT_OWNER')")
     public ResponseEntity<?> createFood(@RequestBody FoodDto foodDto,

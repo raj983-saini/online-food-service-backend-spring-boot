@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -134,8 +135,9 @@ public class RestaurantService {
         RestaurantDto dto = new RestaurantDto();
         dto.setId(restaurant.getId());
         dto.setDescription(restaurant.getDescription());
-        dto.setPitcher(restaurant.getImage());
-        dto.setTittle(restaurant.getName());
+        dto.setImage(Collections.singletonList(restaurant.getImage().get(0)));
+        dto.setName(restaurant.getName());
+        dto.setOpen(restaurant.isOpen() );
         boolean faourate = false;
         List<RestaurantDto> favurate = user.getFavurate();
         for (RestaurantDto fav : favurate){
@@ -156,6 +158,10 @@ public class RestaurantService {
     @Transactional
     public  Restaurant updateResturantStatus(Long id,User user){
         Restaurant restaurant = resturantRepository.findResturantById(id);
+        if (restaurant == null) {
+            throw new RuntimeException("Restaurant with ID " + id + " not found.");
+        }
+        restaurant.setOpen(!restaurant.isOpen());
         return  resturantRepository.save(restaurant);
     }
 

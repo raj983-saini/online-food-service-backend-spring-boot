@@ -29,7 +29,7 @@ public class OrderController {
         return  new ResponseEntity<>(order , HttpStatus.CREATED);
     }
      @GetMapping("/details")
-    public ResponseEntity<?> orderHistory(
+    public ResponseEntity<?> orderdetails(
                                           @RequestHeader("Authorization") String jwt) throws Exception {
         User user = userService.finduserbyjwt(jwt);
         List<Order>  order =orderService.getUserOrder(user.getId());
@@ -44,7 +44,7 @@ public class OrderController {
         List<Order>  order =orderService.getRestaurantOrder(id,orderstatus);
         return  new ResponseEntity<>(order , HttpStatus.OK);
     }
-        @GetMapping("/restaurant/{id}/{orderstatus}")
+        @PutMapping("/restaurant/{id}/{orderstatus}")
     public ResponseEntity<?> updateOrderstatus(
             @PathVariable Long id,
             @PathVariable String orderstatus,

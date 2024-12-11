@@ -41,7 +41,6 @@ public class Restaurant {
     private  String openingHour;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL,orphanRemoval = true ,fetch = FetchType.EAGER)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Order> orders = new ArrayList<>();
 
 
@@ -50,7 +49,6 @@ public class Restaurant {
     private List<String> image = new ArrayList<>();
 
     @OneToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User owner;
 
 private LocalDateTime registerdate;

@@ -46,7 +46,7 @@ public class ResturantController {
         Restaurant restaurant =      restaurantService.findResturantById(id);
         return  new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
-
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PutMapping("/{id}/add-favurate")
     public ResponseEntity<RestaurantDto> addFavurate(
                                                       @RequestHeader("Authorization") String  jwt ,

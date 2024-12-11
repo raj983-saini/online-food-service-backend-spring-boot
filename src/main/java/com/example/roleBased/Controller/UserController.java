@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Scanner;
+
 @RestController
 @RequestMapping("/User")
 public class UserController {
@@ -37,7 +39,7 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(user);
     }
 
 

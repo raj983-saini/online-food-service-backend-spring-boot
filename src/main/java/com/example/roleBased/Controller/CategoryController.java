@@ -36,12 +36,12 @@ public class CategoryController {
 return  new ResponseEntity<>(catagaries1 , HttpStatus.CREATED);
 
     };
-    @GetMapping("/restaurant")
-    public  ResponseEntity<List> getResturantbyCategoryId(@RequestBody Catagaries catagaries,
-                                                       @RequestHeader("Authorities") String jwt) throws Exception {
-        User user =   userService.finduserbyjwt(jwt);
+    @GetMapping("/restaurant/{id}")
+    public ResponseEntity<?> getCategoriesByRestaurantId(@PathVariable Long id,
+                                                         @RequestHeader("Authorization") String jwt) throws Exception {
+        User user = userService.finduserbyjwt(jwt);
 
-     List <Catagaries> catagaries1 = categoryService.findCategoryByreturantId(user.getId() );
-        return  new ResponseEntity<>(catagaries1 , HttpStatus.OK);
+        List<Catagaries> categories = categoryService.findCategoryByreturantId(id);
+        return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 }

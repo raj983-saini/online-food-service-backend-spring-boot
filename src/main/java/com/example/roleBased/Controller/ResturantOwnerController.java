@@ -71,6 +71,7 @@ public class ResturantOwnerController {
         mss.setMsg("delete sucess");
         return  new ResponseEntity<>(mss, HttpStatus.OK);
     }
+    @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
     @PutMapping("/{id}/status")
     public ResponseEntity<?> updateResturantStatus(
                                                       @RequestHeader("Authorization") String  jwt ,

@@ -14,8 +14,9 @@ import java.util.List;
 @Embeddable
 public class RestaurantDto {
     private Long id;
-    private String tittle;
+    private String name;
     private String description;
-    private List<String> pitcher;
+    private boolean open;
+    private List<String> image;
 }
 

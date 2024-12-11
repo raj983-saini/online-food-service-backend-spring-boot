@@ -1,5 +1,6 @@
 package com.example.roleBased.Entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,6 +36,7 @@ public class Food {
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id") // Foreign key to Restaurant
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Restaurant restaurant;
 
     private boolean isVegetarian; // Fixed spelling

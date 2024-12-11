@@ -3,6 +3,7 @@ package com.example.roleBased.Services;
 
 
 
+import com.example.roleBased.Dto.AddAddressDto;
 import com.example.roleBased.Dto.Registerdto;
 import com.example.roleBased.Entity.Cart;
 import com.example.roleBased.Entity.Role;
@@ -96,26 +97,8 @@ private  PasswordEncoder passwordEncoder;
         return user;
     }
 
-//    public List<User> getAll() {
-//    }
-
-//    public void saveUser(User user) {
-//        userRepository.save(user);
-//    }
-
-//    public List<User> getAll() {
-//        return userRepository.findByEmail();
-//    }
-
-//    public Optional<User> findById(long id) {
-//        return userRepository.findById((int) id);
-//    }
+//public  User addAddres(AddAddressDto addAddressDto){
 //
-//    public void deleteById(long id) {
-//        userRepository.deleteById((int)id);
-//    }
-//
-//    public User findByUserName(String userName) {
-//        return userRepository.findByEmail(userName);
-//    }
+//}
+
 }

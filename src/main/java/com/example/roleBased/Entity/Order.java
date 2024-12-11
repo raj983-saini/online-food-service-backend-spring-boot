@@ -1,5 +1,7 @@
 package com.example.roleBased.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,13 +27,16 @@ public class Order {
     private User customer;
 
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Restaurant restaurant;
 //
     @ManyToMany( cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<OrderItem> items = new ArrayList<>();
 
 
     @ManyToOne
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 private  Adressing deliveryAdress;
 
     private Date createorderDate;
