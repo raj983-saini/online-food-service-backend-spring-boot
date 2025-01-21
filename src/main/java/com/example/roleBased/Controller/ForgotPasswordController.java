@@ -48,9 +48,6 @@ public class ForgotPasswordController {
         try {
             // Verify OTP and reset password
 //            System.out.println(passwordreset.getEmail());
-
-            System.out.println(passwordreset.getOtp() +"jijijjijij");
-            System.out.println(passwordreset.getNewPassword());
             forgotPasswordService.verifyOtpResetPassword(passwordreset.getOtp(), passwordreset.getNewPassword());
             return ResponseEntity.ok("Password reset successfully");
         } catch (RuntimeException e) {

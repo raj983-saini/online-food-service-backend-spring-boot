@@ -58,10 +58,6 @@ public class ForgotPasswordService {
 // Verify the OTP and reset the password
     public void verifyOtpResetPassword(String otp, String newPassword) {
         String email = emailCache;
-        System.out.println("Verify " + email);
-        System.out.println("verify " + otp);
-        System.out.println(newPassword);
-
         // Fetch all OTPs associated with the email
         List<Otp> otpTokens = otpTokenRepository.findByEmail(email);
         System.out.println("find " + email);
