@@ -40,7 +40,6 @@ public class ForgotPasswordService {
             throw new RuntimeException("User not found with email: " + email);
         }
         otpTokenRepository.deleteByEmail(email);
-        System.out.println( " dfhjgkjdhfkjgdhfjkghkj            hello ");
         String otp = generateOtp();
         Otp otpToken = new Otp();
         otpToken.setEmail(email);
@@ -48,8 +47,6 @@ public class ForgotPasswordService {
         otpToken.setCreatedAt(System.currentTimeMillis());
         otpTokenRepository.save(otpToken);
         emailCache = email;
-        System.out.println(email);
-        System.out.println(otp);
         // Send the OTP via email
         emailService.sendOtpEmail(email, "Password Reset OTP", otp);
     }
