@@ -8,7 +8,7 @@ import java.util.List;
 public class AddCartItemDto {
     public Long id;
     public  Long foodId;
-    private  int quantit;
+    private  int quantity;
     private List<String> Ingerdient;
 
 }

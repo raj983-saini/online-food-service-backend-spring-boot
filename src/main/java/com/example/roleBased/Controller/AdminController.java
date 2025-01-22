@@ -25,7 +25,8 @@ public class AdminController {
 //    }
 
     @PostMapping("/create-admin-user")
-    public void createUser(@RequestBody Registerdto user) {
+    public void createUser(@RequestBody Registerdto user,
+     @RequestHeader("Authorization") String jwt) {
         userService.saveNewUser(user, Role.ADMIN);
     }
 @GetMapping("/hello")

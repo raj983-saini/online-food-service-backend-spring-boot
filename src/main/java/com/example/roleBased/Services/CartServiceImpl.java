@@ -34,10 +34,12 @@ public class CartServiceImpl implements CartService {
         Food food = foodservice.findByFoodID(dto.getFoodId());
         Cart cart = cartRepository.findByCustomerId(user.getId());
 
+
+
         // Check if item already exists in the cart
         for (CartItem cartItem : cart.getItems()) {
             if (cartItem.getFood().equals(food)) {
-                int newQuantity = cartItem.getQuantit() + dto.getQuantit();
+                int newQuantity = cartItem.getQuantit() + dto.getQuantity();
                 CartItem updatedItem = updateCartItemQuantity(cartItem.getId(), newQuantity);
 
                 // Recalculate cart total after updating an existing item
@@ -52,9 +54,9 @@ public class CartServiceImpl implements CartService {
         CartItem cartItem = new CartItem();
         cartItem.setCart(cart);
         cartItem.setFood(food);
-        cartItem.setQuantit(dto.getQuantit());
+        cartItem.setQuantit(dto.getQuantity());
         cartItem.setIngerdient(dto.getIngerdient());
-        cartItem.setTotalPrize(food.getPrize() * dto.getQuantit()); // Correct item total
+        cartItem.setTotalPrize(food.getPrize() * dto.getQuantity()); // Correct item total
 
         // Save the new CartItem and add it to the cart
         CartItem cartItem1 = cartItemrepository.save(cartItem);

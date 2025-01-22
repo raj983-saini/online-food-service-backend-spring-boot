@@ -45,11 +45,11 @@ public class PublicController {
 
     @PostMapping("/signup")
     public String signup(@RequestBody Registerdto user) {
-        if (user.getRole() == Role.USER) {
-            userService.saveNewUser(user, Role.USER);
+        if (user.getRole() == Role.RESTAURANT_OWNER) {
+            userService.saveNewUser(user, Role.RESTAURANT_OWNER);
         }
         else {
-            userService.saveNewUser(user, Role.RESTAURANT_OWNER);
+            userService.saveNewUser(user, Role.USER);
         }
         return  "Succsfully Singup";
     }

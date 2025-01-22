@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,11 +24,14 @@ public class ResturantController {
     public UserService userService  ;
 
     @GetMapping("/search")
-    public ResponseEntity<List> findResturantByuserId(
+    public ResponseEntity<?> findResturantByuserId(
                                                             @RequestHeader("Authorization") String  jwt ,
                                                             @RequestParam String keyword) throws Exception {
         User user = userService.finduserbyjwt(jwt);
        List< Restaurant> restaurant =      restaurantService.searchByKeyword(keyword);
+       if (restaurant.isEmpty()){
+           return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not Item found with this name");
+       }
         return  new ResponseEntity<>(restaurant  , HttpStatus.OK);
     }
     @GetMapping()

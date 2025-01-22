@@ -5,6 +5,7 @@ import com.example.roleBased.Entity.Otp;
 import com.example.roleBased.Repository.OtpTokenRepository;
 import com.example.roleBased.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class ForgotPasswordService {
     public void forgotPassword(String email) {
         // Check if user exists with this email
         if (!userRepository.existsByEmail(email)) {
-            throw new RuntimeException("User not found with email: " + email);
+            throw new UsernameNotFoundException(" , User not found with email: " + email);
         }
         otpTokenRepository.deleteByEmail(email);
         String otp = generateOtp();

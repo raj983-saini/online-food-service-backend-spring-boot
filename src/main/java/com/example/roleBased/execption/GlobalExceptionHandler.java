@@ -3,6 +3,7 @@ package com.example.roleBased.execption;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -25,6 +26,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleException(Exception e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
     }
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<String> handleUsernamentFound(UsernameNotFoundException ex){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("You are not register with this email first register yourself" + ex.getMessage());
+    }
+
 }
  class InvalidOrderStatusException extends RuntimeException {
     public InvalidOrderStatusException(String message) {
