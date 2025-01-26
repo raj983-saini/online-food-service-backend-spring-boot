@@ -10,7 +10,9 @@ import com.example.roleBased.Entity.Role;
 import com.example.roleBased.Entity.User;
 import com.example.roleBased.Repository.CartRepository;
 import com.example.roleBased.Repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.provider.HibernateUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,6 +50,7 @@ private  PasswordEncoder passwordEncoder;
         newUser.setPassword(passwordEncoder.encode(registerdto.getPassword()));
         newUser.setFullname(registerdto.getFullname());
 //        newUser.setContact(registerdto.getContact());
+
 
         // Set role based on input
         newUser.setRole(role);
@@ -97,8 +100,6 @@ private  PasswordEncoder passwordEncoder;
         return user;
     }
 
-//public  User addAddres(AddAddressDto addAddressDto){
-//
-//}
+
 
 }
